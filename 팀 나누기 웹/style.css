@@ -1,0 +1,89 @@
+body {
+  margin: 0;
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #f3f6fc;
+
+  background-image:
+    url('assets/bg-puzzle1.png'),
+    url('assets/bg-puzzle2.png'),
+    url('assets/bg-puzzle3.png'),
+    url('assets/bg-puzzle4.png');
+  background-repeat: no-repeat;
+  background-size: 200px, 200px, 200px, 200px;
+  background-position:
+    20px 20px,
+    calc(100% - 220px) 30px,
+    30px calc(100% - 220px),
+    calc(100% - 200px) calc(100% - 200px);
+}
+
+.container {
+  text-align: center;
+  padding-top: 120px;
+}
+
+.logo {
+  font-size: 48px;
+  color: #3b82f6;
+  font-weight: bold;
+  margin-bottom: 60px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.puzzle-button {
+  width: 150px;
+  height: 150px;
+  display: inline-block;
+  transition: transform 0.2s;
+}
+
+.puzzle-button img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.puzzle-button:hover {
+  transform: scale(1.05);
+}
+
+.room-code-box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 24px 30px;
+  border: 2px solid #3b82f6;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+}
+
+.room-code-box input {
+  padding: 10px;
+  font-size: 16px;
+  margin-right: 10px;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+}
+
+.room-code-box button {
+  background-color: #0f172a;
+  color: white;
+  font-size: 16px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}

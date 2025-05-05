@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>조 생성</title>
+  <link rel="stylesheet" href="style3.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: #f3f6fc;
+      background-image:
+        url('assets/bg-puzzle1.png'),
+        url('assets/bg-puzzle2.png'),
+        url('assets/bg-puzzle3.png'),
+        url('assets/bg-puzzle4.png');
+      background-repeat: no-repeat;
+      background-size: 200px, 200px, 200px, 200px;
+      background-position:
+        20px 20px,
+        calc(100% - 220px) 30px,
+        30px calc(100% - 220px),
+        calc(100% - 200px) calc(100% - 200px);
+    }
+
+    /* style3.css를 링크했지만 기본 배경도 같이 포함 */
+  </style>
+</head>
+<body>
+
+  <section class="create-box">
+    <div class="create-header">
+      <button class="back-button" onclick="goBack()">←</button>
+      <span class="title">조 생성</span>
+    </div>
+
+    <form class="create-form" onsubmit="handleSubmit(event)">
+      <div class="radio-group">
+        <span>조 유형</span>
+        <label><input type="radio" name="type" value="dev" required /> 개발</label>
+        <label><input type="radio" name="type" value="general" /> 일반</label>
+      </div>
+
+      <div class="input-group">
+        <label>
+          <input type="radio" name="mode" value="count" required />
+          <span>조 개수</span>
+          <input type="number" name="count" placeholder="예: 3" />
+        </label>
+      </div>
+
+      <div class="input-group">
+        <label>
+          <input type="radio" name="mode" value="people" />
+          <span>조 인원 수</span>
+          <input type="number" name="people" placeholder="예: 5" />
+        </label>
+      </div>
+
+      <button type="submit" class="submit-btn">생성하기</button>
+    </form>
+
+    <img class="puzzle-icon" src="assets/puzzle-icon.svg" alt="퍼즐" />
+  </section>
+
+  <script>
+    function goBack() {
+      // 홈으로 돌아가기 (예: index.html)
+      window.location.href = "index.html";
+    }
+
+    function handleSubmit(event) {
+      event.preventDefault();
+
+      const form = event.target;
+      const type = form.type.value;
+      const mode = form.mode.value;
+      const count = form.count.value;
+      const people = form.people.value;
+
+      if (mode === "count" && !count) {
+        alert("조 개수를 입력해주세요!");
+        return;
+      }
+
+      if (mode === "people" && !people) {
+        alert("조 인원 수를 입력해주세요!");
+        return;
+      }
+
+      // 임시로 생성 완료 페이지로 이동 (성공 로직 대체)
+      window.location.href = "success.html";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+/* === 조 생성 화면 === */
+
+.create-box {
+    width: 600px;
+    margin: 80px auto;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    border: 3px solid #e5edff;
+    position: relative;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  }
+  
+  .create-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  
+  .back-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #0f172a;
+  }
+  
+  .create-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  .radio-group label {
+    margin-right: 20px;
+    font-size: 18px;
+    color: #0f172a;
+  }
+  
+  .input-group label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 18px;
+    color: #0f172a;
+  }
+  
+  .input-group input[type="number"] {
+    border: 2px solid #0f172a;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 16px;
+    width: 120px;
+  }
+  
+  .submit-btn {
+    background-color: #0f172a;
+    color: white;
+    font-size: 18px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .puzzle-icon {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 80px;
+    opacity: 0.8;
+  }
+  
