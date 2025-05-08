@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>조 생성</title>
   <link rel="stylesheet" href="style3.css" />
   <style>
@@ -27,6 +28,7 @@
     /* style3.css를 링크했지만 기본 배경도 같이 포함 */
   </style>
 </head>
+
 <body>
 
   <section class="create-box">
@@ -64,34 +66,7 @@
     <img class="puzzle-icon" src="assets/puzzle-icon.svg" alt="퍼즐" />
   </section>
 
-  <script>
-    function goBack() {
-      // 홈으로 돌아가기 (예: index.html)
-      window.location.href = "index.html";
-    }
-
-    function handleSubmit(event) {
-      event.preventDefault();
-
-      const form = event.target;
-      const type = form.type.value;
-      const mode = form.mode.value;
-      const count = form.count.value;
-      const people = form.people.value;
-
-      if (mode === "count" && !count) {
-        alert("조 개수를 입력해주세요!");
-        return;
-      }
-
-      if (mode === "people" && !people) {
-        alert("조 인원 수를 입력해주세요!");
-        return;
-      }
-
-      // 임시로 생성 완료 페이지로 이동 (성공 로직 대체)
-      window.location.href = "success.html";
-    }
-  </script>
+  <script src="create.js"></script>
 </body>
+
 </html>
