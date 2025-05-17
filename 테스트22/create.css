@@ -1,0 +1,108 @@
+/* 기본 설정 */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f3f6fc;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* 전체 박스 */
+.create-box {
+  max-width: 500px;
+  margin: 100px auto;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  padding: 40px;
+  position: relative;
+}
+
+/* 헤더 */
+.create-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #0f172a;
+  cursor: pointer;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+/* 라디오 그룹 */
+.radio-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #0f172a;
+}
+
+.radio-group span {
+  font-weight: 500;
+}
+
+/* 입력 그룹 공통 */
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.input-group label {
+  font-size: 14px;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.input-group input[type="number"] {
+  padding: 8px 10px;
+  font-size: 14px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 6px;
+  width: 120px;
+  background-color: #ffffff;
+}
+
+/* 버튼 */
+.submit-btn {
+  width: 100%;
+  padding: 12px 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+  background-color: #0f172a;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.2s ease;
+}
+
+.submit-btn:hover {
+  background-color: #334155;
+}
+
+/* 퍼즐 이미지 */
+.puzzle-icon {
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  width: 80px;
+  opacity: 0.08;
+  pointer-events: none;
+}

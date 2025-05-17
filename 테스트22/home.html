@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Teametry</title>
+  <link rel="stylesheet" href="home.css" />
+</head>
+<body>
+  <div class="container">
+    <h1 class="logo">Teametry</h1>
+
+    <div class="button-group">
+      <!-- 조 생성 -->
+      <div class="puzzle-button" onclick="goCreate()">
+        <img src="assets/create.svg" alt="조 생성" />
+      </div>
+
+      <!-- 조 목록 -->
+      <div class="puzzle-button" onclick="startListFlow()">
+        <img src="assets/list.svg" alt="조 목록" />
+      </div>
+
+      <!-- 참가 -->
+      <div class="puzzle-button" onclick="startJoinFlow()">
+        <img src="assets/join.svg" alt="참가" />
+      </div>
+    </div>
+  </div>
+
+  <!-- 방 코드 입력 -->
+  <div id="room-code-box" class="room-code-box hidden">
+    <input type="text" placeholder="방 코드를 입력하세요" id="roomCodeInput" />
+    <button onclick="submitRoomCode()">확인</button>
+  </div>
+
+  <!-- 비밀번호 입력 -->
+  <div id="password-box" class="room-code-box hidden">
+    <input type="password" placeholder="비밀번호를 입력하세요" id="passwordInput" />
+    <button onclick="goToResult()">확인</button>
+  </div>
+
+  <script src="home.js"></script>
+</body>
+</html>
