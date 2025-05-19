@@ -119,3 +119,72 @@ body {
   right: 40px;
   transform: rotate(-7deg);
 }
+
+/* ✅ 모달 배경 (dim) */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+/* ✅ 모달 박스 (room-code-box, password-box에 공통으로 적용) */
+.modal-box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  z-index: 1000;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* ✅ 모달 내부 input & button */
+.modal-box input {
+  border: none;
+  outline: none;
+  font-size: 16px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  background-color: #f9fafb;
+  min-width: 200px;
+}
+
+.modal-box button {
+  padding: 10px 16px;
+  font-size: 16px;
+  background-color: #0f172a;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.modal-box button:hover {
+  background-color: #1e3a8a;
+}
+
+/* ✅ 닫기 버튼 */
+.close-button {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* ✅ 숨김 처리 */
+.hidden {
+  display: none;
+}

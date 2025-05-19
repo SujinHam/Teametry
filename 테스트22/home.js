@@ -6,15 +6,33 @@ function goCreate() {
 
 function startListFlow() {
   mode = "list";
-  document.getElementById("room-code-box").classList.remove("hidden");
-  document.getElementById("password-box").classList.add("hidden");
+  openModal("room-code-box");
 }
 
 function startJoinFlow() {
   mode = "join";
-  document.getElementById("room-code-box").classList.remove("hidden");
+  openModal("room-code-box");
+}
+
+// ✅ 공통 모달 열기
+function openModal(id) {
+  document.getElementById("modal-backdrop").classList.remove("hidden");
+  document.getElementById(id).classList.remove("hidden");
+}
+
+// ✅ 공통 모달 닫기
+function closeModal() {
+  document.getElementById("modal-backdrop").classList.add("hidden");
+  document.getElementById("room-code-box").classList.add("hidden");
   document.getElementById("password-box").classList.add("hidden");
 }
+
+// ✅ ESC 키로 모달 닫기
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    closeModal();
+  }
+});
 
 function submitRoomCode() {
   const code = document.getElementById("roomCodeInput").value.trim();
@@ -33,8 +51,9 @@ function submitRoomCode() {
 }
 
 function goToResult() {
+  const code = localStorage.getItem("roomCode");
+  const pw = document.getElementById("passwordInput").value.trim();
 
-  // 🔽 서버에 방 코드 + 비밀번호 검증 요청
   fetch(`/api/rooms/${encodeURIComponent(code)}/verify`, {
     method: "POST",
     headers: {
@@ -49,7 +68,6 @@ function goToResult() {
       return res.json();
     })
     .then((data) => {
-      // 성공 시 → 결과 페이지로 이동
       window.location.href = `status.html?code=${encodeURIComponent(code)}&pw=${encodeURIComponent(pw)}`;
     })
     .catch((err) => {
