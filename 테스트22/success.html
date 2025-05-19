@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>생성 완료</title>
   <link rel="stylesheet" href="style2.css" />
 </head>
+
 <body>
   <div class="success-container">
     <div class="success-box">
@@ -14,7 +16,7 @@
       <div class="field">
         <label>링크</label>
         <div class="copy-box">
-          <input type="text" readonly value="https://teametry.ac.kr/team/123" />
+          <input type="text" readonly id="team-link" />
           <button onclick="copyText(this)">📋</button>
         </div>
       </div>
@@ -22,7 +24,7 @@
       <div class="field">
         <label>방코드</label>
         <div class="copy-box">
-          <input type="text" readonly value="2ADO539C" />
+          <input type="text" readonly id="room-code" />
           <button onclick="copyText(this)">📋</button>
         </div>
       </div>
@@ -30,27 +32,16 @@
       <div class="field">
         <label>비밀번호</label>
         <div class="copy-box">
-          <input type="text" readonly value="CT02LF7" />
+          <input type="text" readonly id="room-password" />
           <button onclick="copyText(this)">📋</button>
         </div>
       </div>
 
-      <!-- ✅ 홈으로 가기 버튼 -->
       <button class="home-btn" onclick="goHome()">완료</button>
     </div>
   </div>
 
-  <script>
-    function copyText(button) {
-      const input = button.previousElementSibling;
-      input.select();
-      document.execCommand("copy");
-      alert("복사되었습니다: " + input.value);
-    }
-
-    function goHome() {
-      window.location.href = "home.html";
-    }
-  </script>
+  <script src="success.js"></script>
 </body>
+
 </html>
