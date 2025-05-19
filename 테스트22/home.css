@@ -78,3 +78,44 @@ body {
 .hidden {
   display: none;
 }
+
+.bg-puzzle {
+  position: fixed;
+  width: 300px;
+  opacity: 0.3;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  z-index: 0;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.bg-puzzle:hover {
+  transform: scale(1.2) rotate(10deg);
+  opacity: 0.8;
+}
+
+/* 위치 조정: 형광펜 위치를 기반으로 수동 조정 */
+.puzzle-1 {
+  top: 40px;
+  left: 30px;
+  transform: rotate(-10deg);
+}
+
+.puzzle-2 {
+  width: 250px;
+  top: 60px;
+  right: 50px;
+  transform: rotate(8deg);
+}
+
+.puzzle-3 {
+  bottom: 50px;
+  left: 60px;
+  transform: rotate(12deg);
+}
+
+.puzzle-4 {
+  bottom: 50px;
+  right: 40px;
+  transform: rotate(-7deg);
+}
