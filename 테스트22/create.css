@@ -4,6 +4,25 @@ body {
   padding: 0;
   background-color: #f3f6fc;
   font-family: 'Noto Sans KR', sans-serif;
+  background-image:
+    url('assets/bg-puzzle9.png'),
+    url('assets/bg-puzzle10.png'),
+    url('assets/bg-puzzle8.png'),
+    url('assets/bg-puzzle11.png');
+
+  background-repeat: no-repeat;
+
+  background-size:
+    min(20vw, 200px),
+    min(20vw, 250px),
+    min(20vw, 300px),
+    min(20vw, 400px);
+
+  background-position:
+    20px 20px,
+    calc(100% - 220px) 20px,
+    20px calc(220% - 220px),
+    calc(110% - 220px) calc(190% - 220px);
 }
 
 /* 전체 박스 */
@@ -97,12 +116,3 @@ body {
   background-color: #334155;
 }
 
-/* 퍼즐 이미지 */
-.puzzle-icon {
-  position: absolute;
-  top: -30px;
-  right: -30px;
-  width: 80px;
-  opacity: 0.08;
-  pointer-events: none;
-}
