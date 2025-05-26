@@ -40,8 +40,9 @@ function goSuccess(event) {
         payload.people = peopleValue;
     }
 
+
     // 🔽 서버에 조 생성 요청
-    fetch("/api/rooms/create", {
+    fetch("/api/create_team/", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -53,11 +54,12 @@ function goSuccess(event) {
             return res.json();
         })
         .then((data) => {
-            const roomCode = data.code; // 예: 서버에서 { code: "ABCD1234" } 반환
+            const roomCode = data.room_code; // 명세서에 따르면 room_code
             window.location.href = `success.html?room=${encodeURIComponent(roomCode)}`;
         })
         .catch((err) => {
             alert("조 생성에 실패했습니다.");
             console.error(err);
         });
+
 }
