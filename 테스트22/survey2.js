@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const answers = [];
 
-        for (let i = 1; i <= 20; i++) {
+        for (let i = 1; i <= 25; i++) {
             const selected = document.querySelector(`input[name="q${i}"]:checked`);
             if (!selected) {
                 alert(`${i}번 문항에 응답해주세요.`);
@@ -16,12 +16,12 @@ document.addEventListener("DOMContentLoaded", () => {
             answers.push(score);
         }
 
-        // 로컬에 저장
-        localStorage.setItem("survey_part1", JSON.stringify(answers));
+        // 저장
+        localStorage.setItem("survey_part2", JSON.stringify(answers));
 
-        // user_id를 다음 페이지로 넘김
+        // 다음 페이지로 이동 (user 유지)
         const params = new URLSearchParams(window.location.search);
         const user_id = params.get("user");
-        window.location.href = `survey2.html?user=${encodeURIComponent(user_id)}`;
+        window.location.href = `survey3.html?user=${encodeURIComponent(user_id)}`;
     });
 });

@@ -1,41 +1,44 @@
 document.addEventListener("DOMContentLoaded", () => {
   const teamBox = document.getElementById("team-box");
   const urlParams = new URLSearchParams(window.location.search);
+  const roomCode = urlParams.get("code");
   const teamId = urlParams.get("team");
 
-  if (!teamId) {
+  if (!roomCode || !teamId) {
     teamBox.innerHTML = "<p>팀 정보가 없습니다.</p>";
     return;
   }
 
-  fetch(`/api/teams/${teamId}`)
+  fetch(`/api/team_detail/${roomCode}/${teamId}`)
     .then((res) => {
       if (!res.ok) throw new Error("서버 응답 오류");
       return res.json();
     })
     .then((team) => {
-      // 1. 팀 UI 구성
       teamBox.innerHTML = `
         <h3>${team.teamName}</h3>
         <ul>
           <li>
             <span class="leader">👑</span>
-            <button class="member" data-name="${team.leader.name}" data-description="${team.leader.description}">
+            <button class="member" data-id="${team.leader.id}" data-name="${team.leader.name}">
               ${team.leader.name}
             </button>
           </li>
-          ${team.members.map((m) => `
+          ${team.members
+          .map(
+            (m) => `
             <li>
-              <button class="member" data-name="${m.name}" data-description="${m.description}">
+              <button class="member" data-id="${m.id}" data-name="${m.name}">
                 ${m.name}
               </button>
             </li>
-          `).join("")}
+          `
+          )
+          .join("")}
         </ul>
       `;
 
-      // 2. 모달 리스너 연결
-      attachModalListeners();
+      attachModalListeners(); // 모달 이벤트 바인딩
     })
     .catch((err) => {
       teamBox.innerHTML = "<p>팀 정보를 불러오는 데 실패했습니다.</p>";
@@ -52,9 +55,24 @@ function attachModalListeners() {
   document.querySelectorAll(".member").forEach((btn) => {
     btn.addEventListener("click", () => {
       const name = btn.dataset.name;
-      const description = btn.dataset.description || "아직 등록된 설명이 없습니다.";
+      const id = btn.dataset.id;
+
       personName.textContent = name;
-      personInfo.textContent = description;
+      personInfo.textContent = "요약 정보를 불러오는 중...";
+
+      // ✅ 요약 API 호출
+      fetch(`/api/participant_summary/${id}`)
+        .then((res) => {
+          if (!res.ok) throw new Error("요약 정보를 불러오지 못했습니다.");
+          return res.text(); // 혹은 res.json() if server returns structured data
+        })
+        .then((summary) => {
+          personInfo.textContent = summary;
+        })
+        .catch(() => {
+          personInfo.textContent = "요약 정보를 불러오는 데 실패했습니다.";
+        });
+
       modal.style.display = "block";
     });
   });
