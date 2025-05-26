@@ -40,26 +40,22 @@ function goSuccess(event) {
         payload.people = peopleValue;
     }
 
-
-    // 🔽 서버에 조 생성 요청
-    fetch("/api/create_team/", {
+    // ✅ Django 서버로 POST 요청
+    fetch("http://127.0.0.1:8000/api/create_team/", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload), // 여기서 'payload' 사용!
     })
         .then((res) => {
             if (!res.ok) throw new Error("조 생성 실패");
             return res.json();
         })
         .then((data) => {
-            const roomCode = data.room_code; // 명세서에 따르면 room_code
+            const roomCode = data.room_code;
             window.location.href = `success.html?room=${encodeURIComponent(roomCode)}`;
         })
         .catch((err) => {
             alert("조 생성에 실패했습니다.");
             console.error(err);
         });
-
 }

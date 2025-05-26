@@ -44,16 +44,8 @@
     <img class="puzzle-icon" src="assets/puzzle.png" alt="퍼즐 아이콘" />
   </section>
 
-  <script src="create.js">
-    function goHome() {
-      window.location.href = "home.html";
-    }
-
-    function goSuccess(event) {
-      event.preventDefault(); // 폼 제출 막기
-      window.location.href = "success.html";
-    }
-  </script>
+  <!-- 외부 JS만 불러오기 -->
+  <script src="create.js"></script>
 </body>
 
 </html>
