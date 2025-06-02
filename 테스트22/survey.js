@@ -22,6 +22,12 @@ document.addEventListener("DOMContentLoaded", () => {
         // user_id를 다음 페이지로 넘김
         const params = new URLSearchParams(window.location.search);
         const user_id = params.get("user");
+
+        // ✅ 디버깅용 로그 출력
+        console.log("Submit fired!");
+        console.log("user_id:", user_id);
+        console.log("Redirecting to: survey2.html?user=" + user_id);
+
         window.location.href = `survey2.html?user=${encodeURIComponent(user_id)}`;
     });
 });

@@ -11,11 +11,18 @@ from .serializers import TeamCreateSerializer, TeamResponseSerializer, RoomJoinS
 from .major import assign_developer_teams_final_logic
 from .import_random import assign_non_developer_teams_rule_based
 from django.shortcuts import get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+
+
 
 # 방 코드 및 비밀번호 생성을 위한 랜덤 문자열 생성 함수
 def generate_code(length=8):
     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
 
+@method_decorator(csrf_exempt, name='dispatch')
 class TeamCreateView(APIView):
     def post(self, request):
         # 1. 요청 데이터 유효성 검사
@@ -64,43 +71,58 @@ class TeamCreateView(APIView):
 
 class RoomJoinView(APIView):
     def post(self, request):
-        # 1. room_code 유효성 검사
         serializer = RoomJoinSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         room_code = serializer.validated_data['room_code']
 
-        # 2. 해당 room_code가 실제 존재하는지 확인 (예외 발생 방지)
-        team = get_object_or_404(Team, room_code=room_code)
+        # ✅ get() → filter().first()로 변경
+        team = Team.objects.filter(room_code=room_code).first()
+        if not team:
+            return Response({"error": "존재하지 않는 방 코드입니다."}, status=400)
 
-        # 3. 입장 성공 시 방 정보 응답
         return Response({
-    "message": "방 입장에 성공했습니다.",
-    "room_code": team.room_code,
-    "team_type": team.team_type,
-    "division_type": team.division_type,  
-    "max_members": team.max_members if team.division_type == "BY_MEMBER_COUNT" else None,
-    "total_teams": team.total_teams if team.division_type == "BY_TEAM_COUNT" else None,
-    "total_members": team.total_members
-}, status=status.HTTP_200_OK)
+            "message": "방 입장에 성공했습니다.",
+            "room_code": team.room_code,
+            "team_type": team.team_type,
+            "division_type": team.division_type,
+            "max_members": team.max_members if team.division_type == "BY_MEMBER_COUNT" else None,
+            "total_teams": team.total_teams if team.division_type == "BY_TEAM_COUNT" else None,
+            "total_members": team.total_members
+        }, status=200)
 
 
-# 참가자 정보 등록 처리 API
+
+@method_decorator(csrf_exempt, name='dispatch')
 class ParticipantJoinView(APIView):
     def post(self, request):
-        serializer = ParticipantCreateSerializer(data=request.data)  # 입력값 검증
-        if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        room_code = request.data.get("room_code")
+        
+        # ❗ 이 부분이 핵심입니다
+        team = Team.objects.filter(room_code=room_code).first()
+        if not team:
+            return Response({"error": "유효하지 않은 방 코드입니다."}, status=400)
 
-        participant = serializer.save()  # 검증 통과 시 Participant 객체 생성 & DB 저장
+        data = request.data.copy()
+        data["team"] = team.id  # ✅ team id를 명시적으로 전달
+
+        serializer = ParticipantCreateSerializer(data=data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=400)
+
+        participant = serializer.save()
 
         return Response({
             "message": "참가자 정보가 성공적으로 등록되었습니다.",
             "user_id": participant.id
         }, status=201)
+ 
+
+
 
 # 참가자가 성격 검사 결과를 제출하는 API
+@method_decorator(csrf_exempt, name="dispatch")
 class SurveySubmitView(APIView):
     def post(self, request):
         serializer = SurveyResponseSerializer(data=request.data)
@@ -243,15 +265,19 @@ class TeamResultView(APIView):
         room_code = request.data.get("room_code")
         password = request.data.get("password")
 
-        try:
-            team = Team.objects.get(room_code=room_code)
-        except Team.DoesNotExist:
+        # ✅ 동일한 room_code로 여러 팀이 있을 수 있으므로 filter 사용
+        teams = Team.objects.filter(room_code=room_code)
+
+        if not teams.exists():
             return Response({"error": "존재하지 않는 방 코드입니다."}, status=400)
 
+        # ✅ 첫 번째 팀 객체에서 비밀번호 검증
+        team = teams.first()
         if team.password != password:
             return Response({"error": "비밀번호가 올바르지 않습니다."}, status=403)
 
-        participants = Participant.objects.filter(team=team)
+        # ✅ 동일 room_code를 가진 모든 팀의 참가자 조회
+        participants = Participant.objects.filter(team__room_code=room_code)
 
         result = {}
 
@@ -279,6 +305,7 @@ class TeamResultView(APIView):
             "message": "조 편성 결과 조회 성공",
             "teams": sorted_result
         }, status=200)
+
 
 class TeamChangeView(APIView):
     def post(self, request):
@@ -389,3 +416,22 @@ class ParticipantSummaryView(APIView):
             "summary": " ".join(lines)
         }, status=200)
 
+# teamapp/views.py
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Team
+
+class RoomVerifyView(APIView):
+    def post(self, request, room_code):
+        password = request.data.get("password")
+        try:
+            team = Team.objects.filter(room_code=room_code).first()
+            if not team:
+                return Response({"error": "존재하지 않는 방 코드입니다."}, status=404)
+            if team.password != password:
+                return Response({"error": "비밀번호가 일치하지 않습니다."}, status=403)
+            return Response({"message": "검증 성공"}, status=200)
+        except Exception as e:
+            return Response({"error": str(e)}, status=500)

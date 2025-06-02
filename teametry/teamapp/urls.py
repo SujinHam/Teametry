@@ -1,5 +1,3 @@
-# teamapp/urls.py
-
 from django.urls import path
 from .views import (
     TeamCreateView,
@@ -11,7 +9,8 @@ from .views import (
     TeamResultView,
     TeamDetailView,
     ParticipantSummaryView,
-    TeamChangeView  
+    TeamChangeView,
+    RoomVerifyView  # ✅ 여기에 포함
 )
 
 urlpatterns = [
@@ -24,5 +23,8 @@ urlpatterns = [
     path('team_result/', TeamResultView.as_view(), name='team_result'),
     path('team_detail/<str:room_code>/<int:team_number>/', TeamDetailView.as_view(), name='team_detail'),
     path('participant_summary/<int:participant_id>/', ParticipantSummaryView.as_view(), name='participant_summary'),
-    path('change_team_assignment/', TeamChangeView.as_view(), name='change_team_assignment'), 
+    path('change_team_assignment/', TeamChangeView.as_view(), name='change_team_assignment'),
+    path('rooms/<str:room_code>/verify', RoomVerifyView.as_view(), name='room_verify'), 
+    path("api/join_participant/", ParticipantJoinView.as_view()),
+  
 ]

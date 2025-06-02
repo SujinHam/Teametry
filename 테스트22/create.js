@@ -3,27 +3,27 @@ function goHome() {
 }
 
 function goSuccess(event) {
-    event.preventDefault(); // 기본 제출 막기
+    event.preventDefault();
 
     const form = document.querySelector(".create-form");
 
-    const type = form.type.value; // 'dev' or 'general'
+    const type = form.type.value;
     const total = parseInt(form.total.value, 10);
 
-    const mode = form.mode.value; // 'count' or 'people'
+    const mode = form.mode.value;
     const countValue = parseInt(form.count.value, 10);
     const peopleValue = parseInt(form.people.value, 10);
 
-    // 유효성 검사
     if (isNaN(total) || total <= 0) {
         alert("인원 수를 올바르게 입력하세요.");
         return;
     }
 
+    // ✅ 필드 이름을 백엔드 기준으로 수정
     let payload = {
-        type: type,
-        total: total,
-        mode: mode,
+        total_members: total,
+        team_type: type === "dev" ? "development" : "non-development",
+        division_type: mode === "count" ? "BY_TEAM_COUNT" : "BY_MEMBER_COUNT",
     };
 
     if (mode === "count") {
@@ -31,20 +31,19 @@ function goSuccess(event) {
             alert("조 갯수를 올바르게 입력하세요.");
             return;
         }
-        payload.count = countValue;
+        payload.total_teams = countValue;
     } else if (mode === "people") {
         if (isNaN(peopleValue) || peopleValue <= 0) {
             alert("조 인원 수를 올바르게 입력하세요.");
             return;
         }
-        payload.people = peopleValue;
+        payload.max_members = peopleValue;
     }
 
-    // ✅ Django 서버로 POST 요청
     fetch("http://127.0.0.1:8000/api/create_team/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload), // 여기서 'payload' 사용!
+        body: JSON.stringify(payload),
     })
         .then((res) => {
             if (!res.ok) throw new Error("조 생성 실패");
@@ -52,8 +51,14 @@ function goSuccess(event) {
         })
         .then((data) => {
             const roomCode = data.room_code;
-            window.location.href = `success.html?room=${encodeURIComponent(roomCode)}`;
+            const password = data.password;
+
+            localStorage.setItem("room_code", roomCode);
+            localStorage.setItem("room_password", password); // 선택 사항
+
+            window.location.href = `success.html?room=${encodeURIComponent(roomCode)}&pw=${encodeURIComponent(password)}`;
         })
+
         .catch((err) => {
             alert("조 생성에 실패했습니다.");
             console.error(err);

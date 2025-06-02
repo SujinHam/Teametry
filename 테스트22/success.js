@@ -8,24 +8,12 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    // 입력창에 코드와 비번 먼저 표시
+    // 입력창에 링크, 코드, 비밀번호 표시
+    const link = `https://teametry.ac.kr/team/${room}`;
+
+    document.getElementById("team-link").value = link;
     document.getElementById("room-code").value = room;
     document.getElementById("room-password").value = pw;
-
-    // 서버에서 링크 등 정보 받아오기
-    fetch(`/api/rooms/${room}/info?pw=${encodeURIComponent(pw)}`)
-        .then((res) => {
-            if (!res.ok) throw new Error("정보를 불러오지 못했습니다.");
-            return res.json();
-        })
-        .then((data) => {
-            // 예: { link: "https://teametry.ac.kr/team/123" }
-            document.getElementById("team-link").value = data.link;
-        })
-        .catch((err) => {
-            alert("팀 정보를 불러오는 데 실패했습니다.");
-            console.error(err);
-        });
 });
 
 function copyText(button) {

@@ -42,6 +42,34 @@
   </div>
 
   <script src="success.js"></script>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const roomCode = urlParams.get("room");
+    const password = urlParams.get("pw");
+
+    if (roomCode) {
+      localStorage.setItem("room_code", roomCode);
+      document.getElementById("room-code").value = roomCode;
+      document.getElementById("team-link").value = `${window.location.origin}/join.html`;
+    }
+
+    if (password) {
+      localStorage.setItem("room_password", password);
+      document.getElementById("room-password").value = password;
+    }
+
+    function copyText(button) {
+      const input = button.previousElementSibling;
+      input.select();
+      document.execCommand("copy");
+      alert("복사되었습니다: " + input.value);
+    }
+
+    function goHome() {
+      window.location.href = "home.html";
+    }
+  </script>
+
 </body>
 
 </html>

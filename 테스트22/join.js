@@ -1,10 +1,11 @@
+console.log("✅ join.js loaded!");
+
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector(".form");
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        // 👉 입력값 수집
         const inputs = form.querySelectorAll("input");
         const name = inputs[0].value;
         const student_id = inputs[1].value;
@@ -30,8 +31,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         try {
-            // ✅ 1단계: 방 코드 유효성 확인 (선택적 단계)
-            const roomRes = await fetch("/api/join_room/", {
+            // ✅ 1단계: 방 코드 유효성 확인
+            const roomRes = await fetch("http://127.0.0.1:8000/api/join_room/", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ room_code }),
@@ -44,13 +45,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 room_code,
                 name,
                 student_id,
-                phone,
+                phone_number: phone, // ✅ 모델 필드와 동일하게 맞춤
                 email,
-                is_leader_preferred: isLeaderPreferred,
+                leader_preference: isLeaderPreferred, // ✅ serializer 필드 이름과 일치시킴
                 preferred_role: preferredRole,
             };
 
-            const participantRes = await fetch("/api/join_participant/", {
+
+            const participantRes = await fetch("http://127.0.0.1:8000/api/join_participant/", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(participantPayload),

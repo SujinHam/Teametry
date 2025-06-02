@@ -54,12 +54,15 @@ function goToResult() {
   const code = localStorage.getItem("roomCode");
   const pw = document.getElementById("passwordInput").value.trim();
 
-  fetch(`/api/rooms/${encodeURIComponent(code)}/verify`, {
+  fetch("http://127.0.0.1:8000/api/team_result/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ password: pw }),
+    body: JSON.stringify({
+      room_code: code,
+      password: pw
+    }),
   })
     .then((res) => {
       if (!res.ok) {
@@ -68,6 +71,7 @@ function goToResult() {
       return res.json();
     })
     .then((data) => {
+      // ✅ 조 결과 페이지로 이동
       window.location.href = `status.html?code=${encodeURIComponent(code)}&pw=${encodeURIComponent(pw)}`;
     })
     .catch((err) => {
